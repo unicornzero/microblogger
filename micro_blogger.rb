@@ -16,8 +16,18 @@ class MicroBlogger
     puts "Welcome to the TinMan Twitter Client!"
     command = ""
     while command != "q"
-      printf "enter command:"
-      command = gets.chomp
+      printf "enter command: "
+      input = gets.chomp
+      parts = input.split(" ")
+      command = parts[0]
+      message = parts[1..-1].join(" ")
+      case command
+        when 'q' then puts "Goodbye!"
+        when 't' then tweet(message)
+        else
+          puts "Sorry, I don't know how to #{command}"
+      end
+
     end
   end
 end
