@@ -11,6 +11,16 @@ class MicroBlogger
   def tweet(message)
     @client.update(message)
   end
+
+  def run
+    puts "Welcome to the TinMan Twitter Client!"
+    command = ""
+    while command != "q"
+      printf "enter command:"
+      command = gets.chomp
+    end
+  end
 end
 
 blogger = MicroBlogger.new
+blogger.run
