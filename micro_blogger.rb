@@ -6,6 +6,7 @@ class MicroBlogger
   def initialize
     puts "Initializing..."
     @client = JumpstartAuth.twitter
+    @followers = []
     getfollowers
   end
 
@@ -31,6 +32,20 @@ class MicroBlogger
     @followers.each {|follower| dm(follower, message)}
   end
 
+  def everyones_last_tweet
+    puts "Here are the last status messages from your follows:"
+    puts " "
+    friends = @client.friends.sort_by {|friend| friend.screen_name.downcase}
+    friends.each do |friend|
+      name = friend.screen_name
+      text = friend.status.text
+      timestamp = friend.status.created_at
+      puts "#{name} tweeted on #{timestamp.strftime("%B %-d, %Y")}..."
+      puts "  #{text}"
+      puts " "
+    end
+  end
+
   def run
     puts "Welcome to the TinMan Twitter Client!"
     command = ""
@@ -44,6 +59,7 @@ class MicroBlogger
         when 't' then tweet(parts[1..-1].join(" "))
         when 'dm' then dm(parts[1], parts[2..-1].join(" "))
         when 'spam' then spam_my_friends(parts[1..-1].join(" "))
+        when 'buzz' then everyones_last_tweet
         else
           puts "Sorry, I don't know how to #{command}"
       end
